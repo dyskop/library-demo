@@ -4,39 +4,49 @@ import by.skopinau.librarydemo.bll.service.BaseService;
 import by.skopinau.librarydemo.dal.entity.BaseEntity;
 import by.skopinau.librarydemo.dal.repository.BaseRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
-@Transactional
-public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
+public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
 
-    @Autowired
-    private final BaseRepository<T> baseRepository;
+    protected final BaseRepository<T> repository;
 
     @Override
-    public T save(T entity) {
-        return baseRepository.save(entity);
-    }
-
-    @Override
-    public void deleteById(int id) {
-        baseRepository.deleteById(id);
-    }
-
-    @Override
-    public Optional<T> findById(int id) {
-        return baseRepository.findById(id);
+    public Optional<T> save(T entity) {
+        return Optional.of(repository.save(entity));
     }
 
     @Override
     public List<T> findAll() {
-        return baseRepository.findAll();
+        return repository.findAll();
+    }
+
+    @Override
+    public Optional<T> findById(int id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public Optional<T> update(T entity, int id) {
+        if (findById(id).isEmpty()) {
+            return Optional.empty();
+        }
+
+        entity.setId(id);
+
+        return save(entity);
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        if (findById(id).isEmpty()) {
+            return false;
+        }
+
+        repository.deleteById(id);
+
+        return true;
     }
 }

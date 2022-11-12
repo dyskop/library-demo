@@ -7,11 +7,13 @@ import java.util.Optional;
 
 public interface BaseService<T extends BaseEntity> {
 
+    Optional<T> save(T entity);
+
     List<T> findAll();
 
     Optional<T> findById(int id);
 
-    void deleteById(int id);
+    Optional<T> update(T entity, int id);
 
-    T save(T entity);
+    boolean deleteById(int id);
 }
