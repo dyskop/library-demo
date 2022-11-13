@@ -41,7 +41,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 
     @Override
     public boolean deleteById(int id) {
-        if (findById(id).isEmpty()) {
+        if (!repository.existsById(id)) {
             return false;
         }
 
