@@ -1,7 +1,6 @@
 package by.skopinau.librarydemo.dal.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
@@ -16,11 +15,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "books")
 @AttributeOverride(name = "id", column = @Column(name = "book_id"))
+// todo: think about ignoring this properties during serialization
+@JsonIgnoreProperties({"genres", "authors"})
 public class Book extends BaseProduct {
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "books_genres",
@@ -44,5 +44,39 @@ public class Book extends BaseProduct {
         super(id, name, publisher, publicationDate);
         this.genres = genres;
         this.authors = authors;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+
+        Book book = (Book) o;
+
+        if (!genres.equals(book.genres)) return false;
+        return authors.equals(book.authors);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = genres.hashCode();
+        result = 31 * result + authors.hashCode();
+        return result;
     }
 }

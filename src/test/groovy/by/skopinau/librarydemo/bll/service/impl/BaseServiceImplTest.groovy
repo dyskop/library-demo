@@ -17,6 +17,7 @@ class BaseServiceImplTest<T extends BaseEntity, R extends BaseRepository<T>, S e
         extends Specification {
 
     private final R repository = Mock()
+    // todo: think about better solution of testing abstract class
     private final S service = new BookServiceImpl(repository as BookRepository) as S
 
     private static Publisher publisher
@@ -95,7 +96,7 @@ class BaseServiceImplTest<T extends BaseEntity, R extends BaseRepository<T>, S e
 
     def "Should update a found entity by id #id and return its optional"(T entity, int id) {
         given:
-        repository.findById(id) >> foundById
+        repository.existsById(id) >> foundById
 
         when:
         Optional<T> actual = service.update(entity, id)
@@ -105,14 +106,14 @@ class BaseServiceImplTest<T extends BaseEntity, R extends BaseRepository<T>, S e
         expected == actual
 
         where:
-        entity    | id                     | foundById                 | expected            | i
-        publisher | new Random().nextInt() | Optional<T>.of(publisher) | Optional.of(entity) | 1
-        genre     | Integer.MIN_VALUE      | Optional<T>.of(genre)     | Optional.of(entity) | 1
-        author    | Integer.MAX_VALUE      | Optional<T>.of(author)    | Optional.of(entity) | 1
-        book      | 1                      | Optional<T>.of(book)      | Optional.of(entity) | 1
-        magazine  | 2                      | Optional<T>.of(magazine)  | Optional.of(entity) | 1
-        newspaper | 3                      | Optional<T>.of(newspaper) | Optional.of(entity) | 1
-        newspaper | 3                      | Optional<T>.empty()       | Optional<T>.empty() | 0
+        entity    | id                     | foundById | expected            | i
+        publisher | new Random().nextInt() | true      | Optional.of(entity) | 1
+        genre     | Integer.MIN_VALUE      | true      | Optional.of(entity) | 1
+        author    | Integer.MAX_VALUE      | true      | Optional.of(entity) | 1
+        book      | 1                      | true      | Optional.of(entity) | 1
+        magazine  | 2                      | true      | Optional.of(entity) | 1
+        newspaper | 3                      | true      | Optional.of(entity) | 1
+        newspaper | 3                      | false     | Optional<T>.empty() | 0
     }
 
     def "Should delete an entity by id #id and return true if exists"(int id) {

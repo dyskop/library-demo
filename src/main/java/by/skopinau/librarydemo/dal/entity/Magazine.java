@@ -1,7 +1,6 @@
 package by.skopinau.librarydemo.dal.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
@@ -16,11 +15,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "magazines")
 @AttributeOverride(name = "id", column = @Column(name = "magazine_id"))
+@JsonIgnoreProperties("genres")
 public class Magazine extends BaseProduct {
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "magazines_genres",
@@ -35,5 +34,28 @@ public class Magazine extends BaseProduct {
     public Magazine(int id, String name, Publisher publisher, LocalDate publicationDate, Set<Genre> genres) {
         super(id, name, publisher, publicationDate);
         this.genres = genres;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Magazine)) return false;
+
+        Magazine magazine = (Magazine) o;
+
+        return genres.equals(magazine.genres);
+    }
+
+    @Override
+    public int hashCode() {
+        return genres.hashCode();
     }
 }
