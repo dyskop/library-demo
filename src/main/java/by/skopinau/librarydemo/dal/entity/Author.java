@@ -1,6 +1,5 @@
 package by.skopinau.librarydemo.dal.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.AttributeOverride;
@@ -15,7 +14,6 @@ import java.util.Set;
 @Table(name = "authors")
 @AttributeOverride(name = "id", column = @Column(name = "author_id"))
 public class Author extends BaseEntity {
-
     @JsonIgnore
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
