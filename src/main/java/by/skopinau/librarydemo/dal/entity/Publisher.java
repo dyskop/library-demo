@@ -30,6 +30,10 @@ public class Publisher extends BaseEntity {
     public Publisher() {
     }
 
+    public Publisher(int id, String name) {
+        super(id, name);
+    }
+
     public Set<Book> getBooks() {
         return books;
     }

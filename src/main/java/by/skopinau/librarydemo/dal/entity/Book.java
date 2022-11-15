@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ import java.util.Set;
 @AttributeOverride(name = "id", column = @Column(name = "book_id"))
 public class Book extends BaseProduct {
 
+    // todo: think about performance with eager fetching
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "books_genres",
@@ -34,6 +36,13 @@ public class Book extends BaseProduct {
     private Set<Author> authors = new HashSet<>();
 
     public Book() {
+    }
+
+    public Book(int id, String name, Publisher publisher, LocalDate publicationDate,
+                Set<Genre> genres, Set<Author> authors) {
+        super(id, name, publisher, publicationDate);
+        this.genres = genres;
+        this.authors = authors;
     }
 
     public Set<Genre> getGenres() {

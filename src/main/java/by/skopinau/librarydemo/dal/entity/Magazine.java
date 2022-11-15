@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,12 @@ public class Magazine extends BaseProduct {
     private Set<Genre> genres = new HashSet<>();
 
     public Magazine() {
+    }
+
+    public Magazine(int id, String name, Publisher publisher, LocalDate publicationDate,
+                    Set<Genre> genres) {
+        super(id, name, publisher, publicationDate);
+        this.genres = genres;
     }
 
     public Set<Genre> getGenres() {
