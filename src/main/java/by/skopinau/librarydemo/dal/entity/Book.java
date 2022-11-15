@@ -1,12 +1,10 @@
 package by.skopinau.librarydemo.dal.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -16,12 +14,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "books")
 @AttributeOverride(name = "id", column = @Column(name = "book_id"))
 public class Book extends BaseProduct {
-    @ManyToMany(cascade = CascadeType.ALL)
+
+    // todo: think about performance with eager fetching
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "books_genres",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -29,7 +27,7 @@ public class Book extends BaseProduct {
     )
     private Set<Genre> genres = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "books_authors",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -40,9 +38,26 @@ public class Book extends BaseProduct {
     public Book() {
     }
 
-    public Book(int id, String name, Publisher publisher, LocalDate publicationDate, Set<Genre> genres, Set<Author> authors) {
+    public Book(int id, String name, Publisher publisher, LocalDate publicationDate,
+                Set<Genre> genres, Set<Author> authors) {
         super(id, name, publisher, publicationDate);
         this.genres = genres;
+        this.authors = authors;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
 }
