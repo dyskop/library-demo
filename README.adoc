@@ -1,0 +1,21 @@
+= Library
+
+== To run the application do the following:
+
+* download the project from the github repository https://github.com/dyskop/library-demo.git[library-demo];
+* open the project in `IDE` and build using `gradle build` terminal command;
+* run the application in docker-container using `docker-compose up -d` terminal command;
+* import the collection of requests from the `dok` folder into `postman HTTP-client` and test the rest-service using them;
+* end the application with the `docker-compose down` terminal command.
+
+== Main technologies of the project:
+
+* Java 11
+* Spring-Boot
+* Spring-Web
+* Spring-Data-Jpa
+* PostgreSQL
+* Gradle
+* Docker
+* Spock Framework
+* Git
