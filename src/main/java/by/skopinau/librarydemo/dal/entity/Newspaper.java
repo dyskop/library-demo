@@ -17,7 +17,11 @@ import java.util.Set;
 @Table(name = "newspapers")
 @AttributeOverride(name = "id", column = @Column(name = "newspaper_id"))
 public class Newspaper extends BaseProduct {
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+            })
     @JoinTable(
             name = "newspapers_genres",
             joinColumns = @JoinColumn(name = "newspaper_id"),

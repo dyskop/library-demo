@@ -9,10 +9,10 @@ import java.time.LocalDate;
 @MappedSuperclass
 public abstract class BaseProduct extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "publisher_id", nullable = false)
+    @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @Column(name = "publication_date", nullable = false)
+    @Column(name = "publication_date")
     private LocalDate publicationDate;
 
     public BaseProduct() {
