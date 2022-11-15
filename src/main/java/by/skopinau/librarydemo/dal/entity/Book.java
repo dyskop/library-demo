@@ -17,8 +17,11 @@ import java.util.Set;
 @Table(name = "books")
 @AttributeOverride(name = "id", column = @Column(name = "book_id"))
 public class Book extends BaseProduct {
-    // todo: think about performance with eager fetching
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+    })
     @JoinTable(
             name = "books_genres",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -26,7 +29,11 @@ public class Book extends BaseProduct {
     )
     private Set<Genre> genres = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+            })
     @JoinTable(
             name = "books_authors",
             joinColumns = @JoinColumn(name = "book_id"),
