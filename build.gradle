@@ -26,7 +26,8 @@ dependencies {
     )
     implementation(
             'org.springframework.boot:spring-boot-starter-data-jpa',
-            'org.springframework.boot:spring-boot-starter-web'
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-cache'
     )
     testImplementation(
             'org.springframework.boot:spring-boot-starter-test',
