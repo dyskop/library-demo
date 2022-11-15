@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +21,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
         return Optional.of(repository.save(entity));
     }
 
+    // todo: think, how to make it works with generics
+    //@Cacheable("products")
     @Override
     @Cacheable("products")
     public List<T> findAll() {
