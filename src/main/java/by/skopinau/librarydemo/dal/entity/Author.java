@@ -1,5 +1,6 @@
 package by.skopinau.librarydemo.dal.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.AttributeOverride;

@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @MappedSuperclass
 public abstract class BaseProduct extends BaseEntity {
-
     @ManyToOne
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;

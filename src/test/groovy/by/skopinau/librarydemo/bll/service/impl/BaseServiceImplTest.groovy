@@ -17,6 +17,7 @@ class BaseServiceImplTest<T extends BaseEntity, R extends BaseRepository<T>, S e
         extends Specification {
 
     private final R repository = Mock()
+    
     // todo: think about better solution of testing abstract class
     private final S service = new BookServiceImpl(repository as BookRepository) as S
 

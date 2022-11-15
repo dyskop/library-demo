@@ -33,7 +33,7 @@ public class Genre extends BaseEntity {
     public Genre(int id, String name) {
         super(id, name);
     }
-
+    
     public Set<Book> getBooks() {
         return books;
     }
