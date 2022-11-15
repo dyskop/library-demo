@@ -4,6 +4,7 @@ import by.skopinau.librarydemo.bll.service.BaseService;
 import by.skopinau.librarydemo.dal.entity.BaseEntity;
 import by.skopinau.librarydemo.dal.repository.BaseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -22,6 +23,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
+    @Cacheable("products")
     public List<T> findAll() {
         return repository.findAll();
     }
