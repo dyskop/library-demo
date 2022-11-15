@@ -14,7 +14,6 @@ import java.util.Set;
 @Table(name = "genres")
 @AttributeOverride(name = "id", column = @Column(name = "genre_id"))
 public class Genre extends BaseEntity {
-
     @JsonIgnore
     @ManyToMany(mappedBy = "genres")
     private Set<Book> books = new HashSet<>();
